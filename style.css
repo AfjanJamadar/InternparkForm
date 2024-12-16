@@ -1,0 +1,59 @@
+body{
+    font-family: 'Roboto', sans-serif; 
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.banner{
+    background: url(../images/banner-bg.jpg);
+}
+
+.TestimonailSlider .swiper-button-prev{
+    width: 40px;
+    background: #e2e2f3;
+    padding: 10px;
+    border-radius: 29px;
+    height: 40px;
+    left: 100px;
+}
+.TestimonailSlider .swiper-button-prev:after{
+    font-size: 17px;
+    color: #674792;
+}
+
+.TestimonailSlider .swiper-button-next{
+    width: 40px;
+    background: #e2e2f3;
+    padding: 10px;
+    border-radius: 29px;
+    height: 40px;
+    right: 100px;
+}
+.TestimonailSlider .swiper-button-next:after{
+    font-size: 17px;
+    color: #674792;
+}
+
+@media (min-width:320px) and (max-width: 1024px) { 
+    .TestimonailSlider .swiper-button-prev{
+        display: none;
+    }
+    .TestimonailSlider .swiper-button-next{
+        display: none;
+    }
+ }
+
+ @media (min-width:1025px) and (max-width: 1400px) { 
+    .TestimonailSlider .swiper-button-prev{
+        left: 40px;
+    }
+    .TestimonailSlider .swiper-button-next{
+        right: 40px;
+    }
+ }
