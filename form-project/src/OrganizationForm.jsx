@@ -84,7 +84,7 @@ const OrganizationForm = () => {
     console.log('Prepared Data for Submission:', preparedData);
   
     try {
-      const response = await fetch('http://localhost:5000/organisation/submit', {
+      const response = await fetch('https://internpark-form-3y9j.vercel.app/organisation/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(preparedData),

@@ -239,7 +239,7 @@ function InternshipForm() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/intern/submit", data, {
+      const response = await axios.post("https://internpark-form-3y9j.vercel.app/intern/submit", data, {
         headers: {
           "Content-Type": "multipart/form-data", // Set the correct content type
         },
