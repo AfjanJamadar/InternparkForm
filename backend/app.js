@@ -5,6 +5,7 @@ const path=require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const multer = require("multer");
+require('dotenv').config();
 
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage });
@@ -19,7 +20,7 @@ app.use(express.static(path.join(__dirname, "../")));
 
 
 mongoose.connect(
-    'mongodb+srv://afjanjamadar:a8850474259A@cluster0.6mqhj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+  process.env.MONGO_URL
   )
     .then(() => console.log('Connected to MongoDB Atlas!!'))
     .catch((err) => console.error('Connection error:', err));
