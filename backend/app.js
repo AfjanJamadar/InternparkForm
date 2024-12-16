@@ -253,7 +253,12 @@ app.post("/intern/submit", upload.single("resume"), async (req, res) => {
 });
 
 // Start the Server on a specified port (e.g., 5000)
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
+
+
+
+module.exports = app;
+
