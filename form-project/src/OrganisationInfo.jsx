@@ -19,7 +19,7 @@ const OrganisationInfo = () => {
        
       </p>
       <p className="organisation-description">
-      Please provide the following information to register your organization
+      Please provide the following information to register your organization.
       </p>
     </div>
   );

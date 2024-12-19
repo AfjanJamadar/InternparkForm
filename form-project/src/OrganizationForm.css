@@ -1,208 +1,219 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
 
+/* Form Container */
+.form-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
-     /* body {
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    overflow-x: hidden;
-    background-color: #f9f9f9; 
+/* Form Grid */
+.form-grid {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+::placeholder {
+  font-family: 'Roboto', sans-serif;
+  color: #aaa; /* Optional: To match placeholder styling */
+}
+
+select option[value=""] {
+  color: #aaa; /* Match the placeholder color */
+  font-family: 'Roboto', sans-serif;
+}
+
+select {
+  color: #aaa; /* Default placeholder color */
+}
+
+/* Name Row */
+.name {
+  display: flex;
+  gap: 20px;
+}
+
+.name > div {
+  flex: 1;
+}
+
+/* Organisation and Designation Row */
+.organisation-designation {
+  display: flex;
+  gap: 20px;
+}
+
+.organisation-designation > div {
+  flex: 1;
+}
+
+/* Nature Row */
+.nature {
+  display: flex;
+  flex-direction: column;
+}
+
+.nature > div {
+  flex: 1;
+}
+
+/* Contact and Email Row */
+.contact-email {
+  display: flex;
+  gap: 20px;
+}
+
+.contact-email > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-email input[type="number"],
+.contact-email input[type="email"] {
+  width: 100%;
+}
+
+/* Department and Skills Row */
+.department-skills {
+  display: flex;
+  gap: 20px;
+}
+
+.department-skills > div {
+  flex: 1;
+}
+
+/* Department Name and Required Skills Row */
+.department-required-skills {
+  display: flex;
+  gap: 20px;
+}
+
+.department-required-skills > div {
+  flex: 1;
+}
+
+/* Duration (Start and End Date) Row */
+.duration {
+  display: flex;
+  gap: 20px;
+}
+
+.duration > div {
+  flex: 1;
+}
+
+/* Grant and Paid Row */
+.grant-paid {
+  display: flex;
+  gap: 20px;
+}
+
+.grant-paid > div {
+  flex: 1;
+}
+
+/* Additional Row */
+.additional {
+  display: flex;
+  flex-direction: column;
+}
+
+.additional > div {
+  flex: 1;
+}
+
+/* Labels */
+label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+  color: #555;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="date"],
+input[type="tel"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #674792;
+  outline: none;
+  box-shadow: 0 0 5px rgba(103, 71, 146, 0.5);
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+}
+
+/* Submit Button */
+.form-submit {
+  background-color: #674792;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.form-submit:hover {
+  background-color: #553772;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .name,
+  .organisation-designation,
+  .contact-email,
+  .department-skills,
+  .department-required-skills,
+  .duration,
+  .grant-paid {
+    flex-direction: column;
   }
-  
-  .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    padding-left: 20px;
-    box-sizing: border-box;
-  }
-  
-  .form {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .form-group {
-    flex: 1;
-    min-width: 250px;
-    box-sizing: border-box;
-  }
-  
-  label {
-    font-weight: 500;
-    margin-bottom: 5px;
-    display: block;
-    color: #555;
-  }
-  
+
   input,
+  textarea,
   select,
-  textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    color: #333;
-    background-color: #fff;
-  }
-  
-  input:focus,
-  select:focus,
-  textarea:focus {
-    border-color: #674792;
-    outline: none;
-    box-shadow: 0 0 5px rgba(103, 71, 146, 0.5);
-  }
-  
-  textarea {
-    resize: vertical;
-  }
-  
-  button.submit-button {
-    background-color: #674792;
-    color: #ffffff;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  button.submit-button:hover {
-    background-color: #553772;
-  }
-  
-  @media (max-width: 768px) {
-    .form-row {
-      flex-direction: column;
-    }
-  
-    input,
-    select,
-    textarea,
-    button.submit-button {
-      font-size: 14px;
-    }
-  }
-   
-
-   */
-
-
-
-
-
-   body {
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    overflow-x: hidden;
-    
-  }
-  
-  .form-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .form-grid {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: auto;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  label {
-    font-weight: 500;
-    margin-bottom: 5px;
-    display: block;
-    color: #555;
-  }
-  
-  .form-input,
-  .multi-select-dropdown,
-  .form-textarea,
-  .form-select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    color: #333;
-    background-color: #fff;
-  }
-  
-  .form-input:focus,
-  .multi-select-dropdown:focus,
-  .form-textarea:focus,
-  select:focus {
-    border-color: #674792;
-    outline: none;
-    box-shadow: 0 0 5px rgba(103, 71, 146, 0.5);
-  }
-  
-  .form-textarea {
-    resize: vertical;
-  }
-  
   .form-submit {
-    background-color: #674792;
-    color: #ffffff;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    margin-top: 20px;
+    font-size: 14px;
   }
-  
-  .form-submit:hover {
-    background-color: #553772;
-  }
-  
-  @media (max-width: 768px) {
-    .form-grid {
-      flex-direction: column;
-    }
-  
-    .form-input,
-    .multi-select-dropdown,
-    .form-textarea,
-    .form-submit {
-      font-size: 14px;
-    }
-  }
-  
+}
