@@ -167,34 +167,45 @@ mongoose.connect(process.env.MONGO_URL)
 const formSchema = new mongoose.Schema({
   organizationName: { type: String, required: true },
   designation: { type: String, required: true },
-  employeeName: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   projectNature: { type: String, required: true },
   contactNumber: { type: String, required: true },
   email: { type: String, required: true },
-  category: { type: String, required: true },
-  requiredSkills: { type: [String], default: [] },
-  duration: { type: String, required: true },
+  department: { type: String, required: true },
+  skills: { type: [String], default: [] },
+  customSkills: { type: String },
+  customDepartment: { type: String },
+  grantExperienceCertificate: { type: String, required: true },
   paidInternship: { type: String, required: true },
   additionalComments: { type: String },
+  availability: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
 });
 
 const FormData = mongoose.model("OrganisationData", formSchema);
 
-// Define schema for internship application form data
 const internSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  contactNumber: { type: String, required: true },
+  contactNo: { type: String, required: true },  // Changed from 'contactNumber' to 'contactNo'
   email: { type: String, required: true },
-  category: { type: String, required: true },
-  requiredSkills: { type: [String], default: [] },
-  duration: { type: String, required: true },
-  linkedin: { type: String },
+  department: { type: String, required: true },  // Changed from 'category' to 'department'
+  skills: { type: [String], default: [] },  // Changed from 'requiredSkills' to 'skills'
+  customSkills: { type: String, default: "" },  // Added field for customSkills
+  customDepartment: { type: String, default: "" },  // Added field for customDepartment
+  linkedinLink: { type: String },  // Changed from 'linkedin' to 'linkedinLink'
   resume: { data: Buffer, contentType: String },
   additionalComments: { type: String },
+  availability: { type: String, required: true },  // Added field for 'availability'
+  expectations: { type: String, default: "" },  // Added field for 'expectations'
+  startDate: { type: Date, required: true },  // Added field for 'startDate'
+  endDate: { type: Date, required: true },  // Added field for 'endDate'
 });
 
 const InternData = mongoose.model("InternData", internSchema);
+
 
 // API endpoint to submit organization form data
 app.post("/organisation/submit", async (req, res) => {
@@ -202,16 +213,23 @@ app.post("/organisation/submit", async (req, res) => {
     const formInfo = {
       organizationName: req.body.organizationName,
       designation: req.body.designation,
-      employeeName: req.body.employeeName,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       projectNature: req.body.projectNature,
       contactNumber: req.body.contactNumber,
       email: req.body.email,
-      category: req.body.category,
-      requiredSkills: req.body.skills || [], // Array of skills
-      duration: req.body.duration,
+      department: req.body.department,
+      skills: req.body.skills || [], // Array of skills
+      customSkills: req.body.customSkills, // For "others" department
+      customDepartment: req.body.customDepartment, // For "others" department
+      grantExperienceCertificate: req.body.grantExperienceCertificate,
       paidInternship: req.body.paidInternship,
       additionalComments: req.body.additionalComments,
+      availability: req.body.availability,
+      startDate: req.body.startDate, // Ensure this is in a valid date format
+      endDate: req.body.endDate, // Ensure this is in a valid date format
     };
+    
 
     const formData = new FormData(formInfo);
     await formData.save();
@@ -223,23 +241,27 @@ app.post("/organisation/submit", async (req, res) => {
   }
 });
 
-// API endpoint to submit internship application data
 app.post("/intern/submit", upload.single("resume"), async (req, res) => {
   try {
     const internInfo = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      contactNumber: req.body.contactNumber,
+      contactNo: req.body.contactNo,  // Updated to 'contactNo'
       email: req.body.email,
-      category: req.body.category,
-      requiredSkills: req.body.requiredSkills ? JSON.parse(req.body.requiredSkills) : [],
-      duration: req.body.duration,
-      linkedin: req.body.linkedin,
+      department: req.body.department,  // Updated to 'department'
+      skills: req.body.skills ? JSON.parse(req.body.skills) : [],  // Updated to 'skills'
+      customSkills: req.body.customSkills || "",  // Added for custom skills
+      customDepartment: req.body.customDepartment || "",  // Added for custom department
+      linkedinLink: req.body.linkedinLink || "",  // Updated to 'linkedinLink'
       resume: {
         data: req.file.buffer,
         contentType: req.file.mimetype,
       },
       additionalComments: req.body.additionalComments,
+      availability: req.body.availability,  // Added for 'availability'
+      expectations: req.body.expectations || "",  // Added for 'expectations'
+      startDate: new Date(req.body.startDate),  // Added 'startDate' as a Date object
+      endDate: new Date(req.body.endDate),  // Added 'endDate' as a Date object
     };
 
     const internData = new InternData(internInfo);
@@ -252,13 +274,14 @@ app.post("/intern/submit", upload.single("resume"), async (req, res) => {
   }
 });
 
+
 // Start the Server on a specified port (e.g., 5000)
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
 
 
 
-module.exports = app;
+// module.exports = app;
 

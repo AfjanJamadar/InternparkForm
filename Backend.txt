@@ -1,0 +1,46 @@
+// Define schema for internship application form data
+const internSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  contactNumber: { type: String, required: true },
+  email: { type: String, required: true },
+  category: { type: String, required: true },
+  requiredSkills: { type: [String], default: [] },
+  duration: { type: String, required: true },
+  linkedin: { type: String },
+  resume: { data: Buffer, contentType: String },
+  additionalComments: { type: String },
+});
+
+const InternData = mongoose.model("InternData", internSchema);
+
+
+
+// API endpoint to submit internship application data
+app.post("/intern/submit", upload.single("resume"), async (req, res) => {
+  try {
+    const internInfo = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      contactNumber: req.body.contactNumber,
+      email: req.body.email,
+      category: req.body.category,
+      requiredSkills: req.body.requiredSkills ? JSON.parse(req.body.requiredSkills) : [],
+      duration: req.body.duration,
+      linkedin: req.body.linkedin,
+      resume: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      },
+      additionalComments: req.body.additionalComments,
+    };
+
+    const internData = new InternData(internInfo);
+    await internData.save();
+    console.log("Successful internship application submission!");
+    res.status(200).send("Internship application submitted successfully");
+  } catch (error) {
+    console.error("Error saving internship application:", error);
+    res.status(500).send("Error saving internship application");
+  }
+});
