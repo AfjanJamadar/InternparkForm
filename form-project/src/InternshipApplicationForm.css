@@ -12,25 +12,22 @@ body {
   font-weight: bold;
   margin-left: 4px;
 }
-
 select option[value=""] {
-  color: #aaa !important;
-  font-style: italic !important; 
+  color: #aaa; /* Placeholder color */
+  font-style: italic; /* Placeholder font style */
 }
+
+/* When the select has a value (i.e., not the placeholder) */
+select:valid {
+  color: #333; /* Set normal color for valid selections */
+}
+
 ::placeholder {
   font-family: 'Roboto', sans-serif;
   color: #aaa; /* Optional: To match placeholder styling */
 }
 
 
-select option[value=""] {
-  color: #aaa; /* Match the placeholder color */
-  font-family: 'Roboto', sans-serif;
-}
-
-select {
-  color: #aaa; /* Default placeholder color */
-}
 
 /* Form Container */
 .form-container {
@@ -132,7 +129,7 @@ label {
 }
 
 .form-submit:hover {
-  background-color: #553772;
+  background-color: #674792;
 }
 
 /* Error Message */

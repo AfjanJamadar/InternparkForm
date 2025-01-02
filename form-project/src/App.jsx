@@ -9,6 +9,8 @@ import InternshipInfo from './InternshipInfo'
 import OrganisationInfo from './OrganisationInfo'
 import Success from './Success'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AdminOrganisationData from './AdminOrganisationData'
+import AdminInternData from './AdminInternData'
 
 function App() {
 
@@ -21,6 +23,9 @@ function App() {
         <Route path="/hire-interns" element={<><Logo/><OrganisationInfo/><OrganizationForm/></>} />
         <Route path="/apply-internships" element={<><Logo/><InternshipInfo/><InternshipApplicationForm /></>} />
         <Route path="/success" element={<> <Logo/><Success /> </>} />
+        <Route path="/organisation/data"  element={<> <Logo/><AdminOrganisationData /> </>} />
+
+        <Route path="/intern/data"  element={<> <Logo/><AdminInternData /> </>} />
       </Routes>
     </Router>
 

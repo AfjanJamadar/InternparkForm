@@ -182,6 +182,7 @@ const formSchema = new mongoose.Schema({
   availability: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
+  immediateHiring: { type: Boolean, required: true }, 
 });
 
 const FormData = mongoose.model("OrganisationData", formSchema);
@@ -201,7 +202,8 @@ const internSchema = new mongoose.Schema({
   availability: { type: String, required: true },  // Added field for 'availability'
   expectations: { type: String, default: "" },  // Added field for 'expectations'
   startDate: { type: Date, required: true },  // Added field for 'startDate'
-  endDate: { type: Date, required: true },  // Added field for 'endDate'
+  endDate: { type: Date, required: true }, 
+  immediateJoining: { type: Boolean, required: true }, 
 });
 
 const InternData = mongoose.model("InternData", internSchema);
@@ -227,7 +229,8 @@ app.post("/organisation/submit", async (req, res) => {
       additionalComments: req.body.additionalComments,
       availability: req.body.availability,
       startDate: req.body.startDate, // Ensure this is in a valid date format
-      endDate: req.body.endDate, // Ensure this is in a valid date format
+      endDate: req.body.endDate,
+      immediateHiring: req.body.immediateHiring, 
     };
     
 
@@ -261,7 +264,8 @@ app.post("/intern/submit", upload.single("resume"), async (req, res) => {
       availability: req.body.availability,  // Added for 'availability'
       expectations: req.body.expectations || "",  // Added for 'expectations'
       startDate: new Date(req.body.startDate),  // Added 'startDate' as a Date object
-      endDate: new Date(req.body.endDate),  // Added 'endDate' as a Date object
+      endDate: new Date(req.body.endDate),
+      immediateJoining: req.body.immediateJoining,
     };
 
     const internData = new InternData(internInfo);
@@ -274,6 +278,63 @@ app.post("/intern/submit", upload.single("resume"), async (req, res) => {
   }
 });
 
+
+// API endpoint to fetch all entries
+app.get('/api/entries', async (req, res) => {
+  try {
+    const entries = await FormData.find(); // Query the database
+    console.log(entries);
+    if (!entries) {
+      return res.status(404).json({ error: 'No entries found' }); // If no entries are found
+    }
+    res.json(entries); // Return the fetched entries as JSON
+  } catch (error) {
+    console.error('Error fetching entries:', error);
+    res.status(500).json({ error: 'Error fetching entries' }); // Return a structured JSON error
+  }
+});
+
+
+app.get('/api/interns', async (req, res) => {
+  try {
+    const interns = await InternData.find();
+    const filteredInterns = interns.map((intern) => {
+      const filteredData = {};
+      Object.keys(intern._doc).forEach((key) => {
+        if (intern[key] !== null && intern[key] !== undefined) {
+          filteredData[key] = intern[key];
+        }
+      });
+      return filteredData;
+    });
+    res.json(filteredInterns);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/interns/:id/resume', async (req, res) => {
+  try {
+    const intern = await InternData.findById(req.params.id);
+    if (!intern || !intern.resume) return res.status(404).send('Resume not found');
+
+    res.contentType(intern.resume.contentType);
+    res.send(intern.resume.data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+app.delete('/api/interns/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await InternData.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Intern deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting intern', error });
+  }
+});
 
 // Start the Server on a specified port (e.g., 5000)
 const PORT = process.env.PORT || 5000;

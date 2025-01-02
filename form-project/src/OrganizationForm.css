@@ -72,7 +72,44 @@ select {
 .nature > div {
   flex: 1;
 }
+.custom-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none; 
+  appearance: none; 
+  width: 20px; 
+  height: 20px; 
+  margin-top: 10px;
+  margin-left: 10px;
+  background-color: #ffffff;
+  border: 2px solid #674792; /* Make the border visible */
+  transform: scale(1.2); 
+  position: relative;
+  border-radius: 3px; /* Optional: add rounded corners if needed */
+}
 
+.custom-checkbox:checked {
+  background-color: #674792; /* Set background color when checked */
+  border-color: #674792; /* Ensure the border matches the background */
+}
+
+.custom-checkbox:checked::after {
+  content: '✔'; /* Unicode for tick mark */
+  position: absolute;
+  top: 0px;
+  left: 2px;
+  color: #ffffff; /* White color for the tick mark */
+  font-size: 16px; /* Adjust size if needed */
+}
+
+.custom-checkbox::after {
+  content: ''; /* Empty content before checked */
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  font-size: 16px; /* Adjust size if needed */
+}
+
+  
 /* Contact and Email Row */
 .contact-email {
   display: flex;

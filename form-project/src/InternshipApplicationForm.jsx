@@ -527,12 +527,14 @@ function InternshipApplicationForm() {
     resume: null,
     additionalComments: '',
     availability:'',
+    immediateJoining: false,
     expectations:"",
     startDate: "",
     endDate: "",
   });
 
    const [selectedSkills, setSelectedSkills] = useState([]);
+   const [isCustomDuration, setIsCustomDuration] = useState(false);
     const navigate = useNavigate();
   
   const skillsByDepartment = {
@@ -655,6 +657,34 @@ function InternshipApplicationForm() {
     ],
   };
 
+
+  const departmentOptions = [
+    { value: "It", label: "IT and Technology" },
+    { value: "sales", label: "Sales" },
+    { value: "marketing", label: "Marketing" },
+    { value: "finance", label: "Finance" },
+    { value: "hr", label: "HR" },
+    { value: "operations", label: "Operations" },
+    { value: "audit", label: "Audit" },
+    { value: "Strategy and special projects", label: "Strategy and Special Projects" },
+    { value: "rnd", label: "Research and Development" },
+    { value: "customerService", label: "Customer Service" },
+    { value: "legal", label: "Legal" },
+    { value: "executiveLeadership", label: "Executive Leadership" },
+    { value: "procurement", label: "Procurement" },
+    { value: "publicRelations", label: "Public Relations" },
+    { value: "others", label: "Others" },
+  ];
+
+  const durationOptions = [
+    { value: "1", label: "1 Month" },
+    { value: "3", label: "3 Months" },
+    { value: "6", label: "6 Months" },
+    { value: "9", label: "9 Months" },
+    { value: "12", label: "12 Months" },
+    { value: "others", label: "Others" },
+  ];
+
    useEffect(() => {
       // Set the current date as the default start date when the component mounts
       const currentDate = new Date().toISOString().split('T')[0]; // Getting the current date in YYYY-MM-DD format
@@ -673,21 +703,44 @@ function InternshipApplicationForm() {
         }));
       }
     }, [formData.startDate, formData.availability]);
-  
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-  
-    // Update the form data state
-    setFormData((prevData) => {
-      const updatedData = {
+
+    const handleDepartmentChange = (selectedOption) => {
+      setFormData((prevData) => ({
         ...prevData,
-        [name]: value,
-      };
+        department: selectedOption?.value || "", // Update the department field only
+      }));
+    };
+
+
+    const handleDurationChange = (selectedOption) => {
+      if (selectedOption?.value === "others") {
+        setIsCustomDuration(true);
+        setFormData((prevData) => ({
+          ...prevData,
+          availability: "", 
+        }));
+      } else {
+        setIsCustomDuration(false);
+        setFormData((prevData) => ({
+          ...prevData,
+          availability: selectedOption?.value || "",
+        }));
+      }
+    };
   
-     
-      return updatedData; // Return the updated data to update the state
-    });
-  };
+    const handleChange = (e) => {
+      const { name, value, type, checked } = e.target;
+    
+      console.log({ name, type, checked, value });
+      setFormData((prevData) => {
+        const updatedData = {
+          ...prevData,
+          [name]: type === "checkbox" ? checked : value,
+        };
+    
+        return updatedData;
+      });
+    };
   
   const handleInputChange = (fieldName, value) => {
     setFormData((prevData) => {
@@ -774,7 +827,8 @@ function InternshipApplicationForm() {
       data.append("availability", formData.availability); // Added 'availability'
       data.append("expectations", formData.expectations || ""); // Added 'expectations'
       data.append("startDate", formData.startDate); // Added 'startDate'
-      data.append("endDate", formData.endDate); // Added 'endDate'
+      data.append("endDate", formData.endDate);
+      data.append("immediateJoining",formData.immediateJoining);
 
       if (formData.resume) {
         data.append("resume", formData.resume); // Append the resume file
@@ -784,7 +838,7 @@ function InternshipApplicationForm() {
 
       // Make the API request
       try {
-        const response = await axios.post("http://localhost:5000/intern/submit", data, {
+        const response = await axios.post(" http://localhost:5000/intern/submit", data, {
           headers: {
             "Content-Type": "multipart/form-data", // Set the correct content type
           },
@@ -864,30 +918,20 @@ function InternshipApplicationForm() {
       <div className="department-skills">
        {/* Department Selection */}
        <div>
-        <label>Select  Department: <span className="required">*</span></label>
-        <select
-          name="department"
-          value={formData.department}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select</option>
-          <option value="It">IT and Technology</option>
-          <option value="sales">Sales</option>
-          <option value="marketing">Marketing</option>
-          <option value="finance">Finance</option>
-          <option value="hr">HR</option>
-          <option value="operations">Operations</option>
-          <option value="audit">Audit</option>
-          <option value="Strategy and special projects">Strategy and Special Projects</option>
-          <option value="rnd">R&D</option>
-          <option value="customerService">Customer Service</option>
-          <option value="legal">Legal</option>
-          <option value="executiveLeadership">Executive Leadership</option>
-          <option value="procurement">Procurement</option>
-          <option value="publicRelations">Public Relations</option>
-          <option value="others">Others</option>
-        </select>
+       <label>
+        Select Department: <span className="required">*</span>
+      </label>
+      <Select
+        value={
+          formData.department
+            ? departmentOptions.find((option) => option.value === formData.department)
+            : null
+        }
+        onChange={handleDepartmentChange}
+        options={departmentOptions}
+        placeholder="Select"
+        isClearable
+      />
       </div>
 
       {/* Skills Section */}
@@ -949,21 +993,39 @@ function InternshipApplicationForm() {
       <br></br>
       <div className="duration-dates">
       <div>
-        <label>Desired Duration/Availability: <span className="required">*</span></label>
-        <select
-          name="availability"
-          value={formData.availability}
-          onChange={handleChange}
-          required
-        >
-          <option value="" disabled hidden selected>Desired Duration / Availability</option>
-            <option value="1">1 Month</option>
-            <option value="3">3 Months</option>
-            <option value="6">6 Months</option>
-            <option value="9">9 Months</option>
-            <option value="12">12 Months</option>
-        </select>
-      </div>
+      <label>
+    Desired Duration/Availability: <span className="required">*</span>
+   </label>
+    <Select
+    value={
+      formData.availability
+        ? durationOptions.find(
+            (option) => option.value === formData.availability
+          )
+        : null
+    }
+    onChange={handleDurationChange}
+    options={durationOptions}
+    placeholder="Desired Duration / Availability"
+    isClearable
+  />
+  </div>
+  {isCustomDuration && (
+    <div>
+      <label>Enter Custom Duration (In Months):</label>
+      <input
+        type="text"
+        value={formData.availability}
+        onChange={(e) =>
+          setFormData((prevData) => ({
+            ...prevData,
+            availability: e.target.value,
+          }))
+        }
+        placeholder="Enter your desired duration"
+      />
+    </div>
+  )}
 
      <div>
     <label>Start Date: <span className="required">*</span></label>
@@ -972,6 +1034,9 @@ function InternshipApplicationForm() {
       name="startDate"
       value={formData.startDate}
       onChange={(e) => handleInputChange("startDate", e.target.value)}
+      style={{
+        color: formData.endDate ? "black" : "gray", // Use placeholder color for readability
+      }}
       required
     />
   </div>
@@ -981,6 +1046,9 @@ function InternshipApplicationForm() {
       type="date" id="endDate"
       name="endDate"
       value={formData.endDate }
+      style={{
+        color: formData.endDate ? "black" : "gray", // Use placeholder color for readability
+      }}
       readOnly
     />
   </div>
@@ -1007,6 +1075,18 @@ function InternshipApplicationForm() {
           accept=".pdf,.doc,.docx"
           required
         />
+      </div>
+      <div>
+      <label>
+            Willing to join Immediately: <span className="required">*</span>
+          </label>
+          <input
+            type="checkbox"
+            name="immediateJoining"
+            className="custom-checkbox"
+            checked={formData.immediateJoining} 
+            onChange={handleChange}
+          />
       </div>
       </div>
       <br></br>

@@ -1,0 +1,127 @@
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import './AdminInternData.css'
+
+// function AdminPage() {
+//   const [interns, setInterns] = useState([]);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const itemsPerPage = 5; // Number of interns per page
+
+//   useEffect(() => {
+//     axios
+//       .get('http://localhost:5000/api/interns')
+//       .then((response) => setInterns(response.data))
+//       .catch((error) => console.error(error));
+//   }, []);
+
+//   // Pagination handlers
+//   const handleNextPage = () => {
+//     if (currentPage * itemsPerPage < interns.length) {
+//       setCurrentPage((prevPage) => prevPage + 1);
+//     }
+//   };
+
+//   const handlePreviousPage = () => {
+//     if (currentPage > 1) {
+//       setCurrentPage((prevPage) => prevPage - 1);
+//     }
+//   };
+
+//   // Format date in dd-mm-yyyy format
+//   const formatDate = (date) => {
+//     const d = new Date(date);
+//     const day = ("0" + d.getDate()).slice(-2); // Ensure two digits for the day
+//     const month = ("0" + (d.getMonth() + 1)).slice(-2); // Ensure two digits for the month
+//     const year = d.getFullYear();
+    
+//     return `${day}-${month}-${year}`; // Format the date as dd-mm-yyyy
+//   };
+
+//   // Filter interns to show only current page
+//   const currentData = interns.slice(
+//     (currentPage - 1) * itemsPerPage,
+//     currentPage * itemsPerPage
+//   );
+
+//   const handleResumeDownload = (id) => {
+//     window.open(`http://localhost:5000/api/interns/${id}/resume`, '_blank');
+//   };
+
+//   return (
+//     <div className="admin-page">
+//       <h1 className="admin-title">Intern Data</h1>
+//       {currentData.map((intern) => (
+//         <div key={intern._id} className="entry-card">
+//           <h2 className="entry-title">
+//             {intern.firstName} {intern.lastName}
+//           </h2>
+
+//           <div className="entry-content">
+//             {Object.entries(intern)
+//               .filter(
+//                 ([key, value]) =>
+//                   value !== null && // Exclude null values
+//                   value !== undefined && // Exclude undefined values
+//                   value !== "" && // Exclude empty strings
+//                   key !== '__v' && // Exclude MongoDB version key
+//                   key !== '_id' && // Exclude _id field
+//                   key !== 'firstName' && // Exclude firstName field
+//                   key !== 'lastName' && // Exclude lastName field
+//                   key !== 'resume' // Exclude resume field
+//               )
+//               .map(([key, value]) => (
+//                 <p key={key}>
+//                   <strong>{key}:</strong>{' '}
+//                   {key === 'linkedinLink' ? (
+//                     <a href={value} target="_blank" rel="noopener noreferrer">
+//                       View LinkedIn
+//                     </a>
+//                   ) : key === 'skills' ? (
+//                     value.join(', ') // Join skills as comma-separated
+//                   ) : key === 'startDate' || key === 'endDate' ? (
+//                     formatDate(value) // Format startDate and endDate
+//                   ) : key === 'availability' ? (
+//                     `${value} months` // Append 'months' to availability
+//                   ) : (
+//                     value
+//                   )}
+//                 </p>
+//               ))}
+//           </div>
+//           <button onClick={() => handleResumeDownload(intern._id)}>
+//             View Resume
+//           </button>
+//         </div>
+//       ))}
+
+//       {/* Pagination Controls */}
+//       <div className="navigation-buttons">
+//         <button
+//           onClick={handlePreviousPage}
+//           disabled={currentPage === 1}
+//           className="nav-button"
+//         >
+//           Previous
+//         </button>
+//         <button
+//           onClick={handleNextPage}
+//           disabled={currentPage * itemsPerPage >= interns.length}
+//           className="nav-button"
+//         >
+//           Next
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default AdminPage;
+
+
+
+
+
+
+
+
+
